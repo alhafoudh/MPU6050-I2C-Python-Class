@@ -28,12 +28,14 @@ i2c_bus = 1
 device_address = 0x68
 # The offsets are different for each device and should be changed
 # accordingly using a calibration procedure
-x_accel_offset = -5489
-y_accel_offset = -1441
-z_accel_offset = 1305
-x_gyro_offset = -2
-y_gyro_offset = -72
-z_gyro_offset = -5
+
+x_accel_offset = -3153
+y_accel_offset = 2391
+z_accel_offset = 785
+x_gyro_offset = -39
+y_gyro_offset = 78
+z_gyro_offset = -14
+
 enable_debug_output = True
 
 mpu = MPU6050(i2c_bus, device_address, x_accel_offset, y_accel_offset,
@@ -69,12 +71,13 @@ while count < 10000:
         while FIFO_count < packet_size:
             FIFO_count = mpu.get_FIFO_count()
         FIFO_buffer = mpu.get_FIFO_bytes(packet_size)
-        accel = mpu.DMP_get_acceleration_int16(FIFO_buffer)
+        # accel = mpu.DMP_get_acceleration_int16(FIFO_buffer)
         quat = mpu.DMP_get_quaternion_int16(FIFO_buffer)
         grav = mpu.DMP_get_gravity(quat)
         roll_pitch_yaw = mpu.DMP_get_euler_roll_pitch_yaw(quat, grav)
-        if count % 100 == 0:
-            print('roll: ' + str(roll_pitch_yaw.x))
-            print('pitch: ' + str(roll_pitch_yaw.y))
-            print('yaw: ' + str(roll_pitch_yaw.z))
+        # if count % 100 == 0:
+        #     print('roll: ' + str(roll_pitch_yaw.x))
+        #     print('pitch: ' + str(roll_pitch_yaw.y))
+        #     print('yaw: ' + str(roll_pitch_yaw.z))
         count += 1
+        print('roll: %3.0f' % roll_pitch_yaw.x, 'pitch: %3.0f' % roll_pitch_yaw.y, 'yaw: %3.0f' % roll_pitch_yaw.z)
