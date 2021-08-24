@@ -7,6 +7,7 @@ from Quaternion import Quaternion as Q
 from Quaternion import XYZVector as V
 from machine import I2C
 
+
 class MPU6050:
     __buffer = [0] * 14
     __debug = False
@@ -697,7 +698,7 @@ class MPU6050:
         w = quat.w / 16384.0
         x = quat.x / 16384.0
         y = quat.y / 16384.0
-        z = quat.z / 16384.0
+        z = quat.z / (2.0 * 16384.0)
         return Q(w, x, y, z)
 
     def DMP_get_acceleration_int16(self, a_FIFO_buffer):
